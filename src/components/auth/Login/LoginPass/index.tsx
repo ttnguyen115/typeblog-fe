@@ -1,4 +1,4 @@
-import { InputChange } from '@types';
+import { FormSubmit, InputChange } from '@types';
 import React from "react";
 import styled from 'styled-components';
 
@@ -7,14 +7,19 @@ function LoginPass() {
   const [userLogin, setUserLogin] = React.useState(initialState);
   const [typePass, setTypePass] = React.useState(false);
   const { account, password } = userLogin;
-  const isButtonActive = !!(account && password);
+
   const handleChangeInput = (e: InputChange) => {
     const { value, name } = e.target;
     setUserLogin({ ...userLogin, [name]: value });
   }
 
+  const handleFormSubmit = (e: FormSubmit) => {
+    e.preventDefault();
+    //const {data} = useQueries('login', authApi.login, )
+  }
+
   return (
-    <form>
+    <form onSubmit={handleFormSubmit}>
       <div className='form-group mb-3'>
         <label htmlFor="account" className="form-label">Email / Phone number</label>
         <input
@@ -42,7 +47,7 @@ function LoginPass() {
         </PasswordField>
       </div>
 
-      <button type='submit' disabled={isButtonActive} className="btn btn-dark w-100 mt-1">Login</button>
+      <button type='submit' disabled={!(account && password)} className="btn btn-dark w-100 mt-1">Login</button>
     </form>
   )
 }
