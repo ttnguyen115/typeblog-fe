@@ -10,5 +10,21 @@ export interface IUserLogin {
   password: string;
 }
 
+export interface IUser extends IUserLogin {
+  avatar: string;
+  createdAt: string;
+  name: string;
+  role: string;
+  type: string;
+  updatedAt: string;
+  _v: number;
+  _id: string;
+}
+
+export interface IAuth {
+  token?: string;
+  user?: IUser;
+}
+
 export type InputChange = ChangeEvent<HTMLInputElement>;
 export type FormSubmit = FormEvent<HTMLFormElement>;

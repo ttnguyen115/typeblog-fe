@@ -1,12 +1,19 @@
 import { FormSubmit, InputChange } from '@types';
+import authApi from 'api/authApi';
 import React from "react";
+import { useMutation } from 'react-query';
 import styled from 'styled-components';
 
 function LoginPass() {
-  const initialState = { account: "", password: "" };
+  const initialState = { account: "huaroinha101@gmail.com", password: "123456" };
   const [userLogin, setUserLogin] = React.useState(initialState);
   const [typePass, setTypePass] = React.useState(false);
   const { account, password } = userLogin;
+
+  const login = useMutation(authApi.login, {
+    onSuccess: (res) => console.log(res.data),
+    onError: (err) => console.log(err),
+  });
 
   const handleChangeInput = (e: InputChange) => {
     const { value, name } = e.target;
@@ -15,7 +22,7 @@ function LoginPass() {
 
   const handleFormSubmit = (e: FormSubmit) => {
     e.preventDefault();
-    //const {data} = useQueries('login', authApi.login, )
+    login.mutate(userLogin);
   }
 
   return (

@@ -1,9 +1,10 @@
+import { IUserLogin } from './../../@types/index';
 import axiosClient from "api";
 
 const authApi = {
-  login(params: object) {
+  login(params: IUserLogin) {
     const url = "/api/login";
-    return axiosClient.get(url, { params });
+    return axiosClient.post(url, params);
   },
 };
 
