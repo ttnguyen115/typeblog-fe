@@ -1,8 +1,9 @@
-import axios from "axios";
+import axios, {AxiosRequestConfig} from "axios";
 
-const axiosClient = axios.create({
-  baseURL: 'http://localhost:5000',
-})
+export const baseUrl: string = 'http://localhost:5000';
+
+const config: AxiosRequestConfig = { baseURL: baseUrl };
+const axiosClient = axios.create(config);
 
 // Add a request interceptor
 axiosClient.interceptors.request.use(

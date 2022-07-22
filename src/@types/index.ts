@@ -26,5 +26,7 @@ export interface IAuth {
   user?: IUser;
 }
 
+
+
 export type InputChange = ChangeEvent<HTMLInputElement>;
 export type FormSubmit = FormEvent<HTMLFormElement>;

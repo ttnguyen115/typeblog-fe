@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 import GlobalStyles from 'styles/globalStyles';
 import App from './App';
 
@@ -27,6 +29,7 @@ root.render(
         <App />
         <ReactQueryDevtools initialIsOpen={false} position='bottom-right' />
       </QueryClientProvider>
+      <ToastContainer />
       <GlobalStyles />
     </BrowserRouter>
   </React.StrictMode>

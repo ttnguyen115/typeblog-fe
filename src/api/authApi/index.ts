@@ -2,9 +2,10 @@ import { IUserLogin } from './../../@types/index';
 import axiosClient from "api";
 
 const authApi = {
-  login(params: IUserLogin) {
+  async login(params: IUserLogin) {
     const url = "/api/login";
-    return axiosClient.post(url, params);
+    const res = await axiosClient.post(url, params);
+    return res;
   },
 };
 

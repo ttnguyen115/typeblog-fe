@@ -1,7 +1,6 @@
 import { FormSubmit, InputChange } from '@types';
-import authApi from 'api/authApi';
+import { useAuth } from 'lib/auth/useAuth';
 import React from "react";
-import { useMutation } from 'react-query';
 import styled from 'styled-components';
 
 function LoginPass() {
@@ -9,11 +8,7 @@ function LoginPass() {
   const [userLogin, setUserLogin] = React.useState(initialState);
   const [typePass, setTypePass] = React.useState(false);
   const { account, password } = userLogin;
-
-  const login = useMutation(authApi.login, {
-    onSuccess: (res) => console.log(res.data),
-    onError: (err) => console.log(err),
-  });
+  const auth = useAuth();
 
   const handleChangeInput = (e: InputChange) => {
     const { value, name } = e.target;
@@ -22,7 +17,7 @@ function LoginPass() {
 
   const handleFormSubmit = (e: FormSubmit) => {
     e.preventDefault();
-    login.mutate(userLogin);
+    auth.login(userLogin);
   }
 
   return (
@@ -72,4 +67,4 @@ const PasswordField = styled.div`
   }
 `;
 
-export default LoginPass
+export default React.memo(LoginPass)
