@@ -5,7 +5,7 @@ const settings = [
 
 const bfLoginLinks = [
   { label: "Login", path: "/login" },
-  { label: "Register", path: "/register" },
+  { label: "Signup", path: "/signup" },
 ];
 
 export { settings, bfLoginLinks };

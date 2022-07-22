@@ -15,6 +15,15 @@ const GlobalStyles = createGlobalStyle`
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
   }
+
+  input::placeholder {
+    opacity: 0.5;
+    font-size: 80%;
+  }
+
+  a {
+    text-decoration: none;
+  }
 `;
 
 export default GlobalStyles;

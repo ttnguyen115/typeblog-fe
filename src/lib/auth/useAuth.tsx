@@ -1,8 +1,9 @@
-import { IUser, IUserLogin } from "@types";
+import { IUser, IUserLogin, IUserSigup } from "@types";
 import axiosClient from "api";
 import axios, { AxiosResponse } from "axios";
 import { useUser } from "lib/user/useUser";
 import { toast } from "react-toastify";
+import { validSignup } from "utils/common/valid";
 
 interface UseAuth {
   login: (user: IUserLogin) => Promise<void>,
@@ -20,7 +21,7 @@ export function useAuth(): UseAuth {
 
   async function authServerCall(
     urlEndpoint: string,
-    user: IUser | IUserLogin,
+    user: IUserSigup | IUserLogin,
   ): Promise<void> {
     try {
       const { data, status }: AxiosResponse<AuthResponseType> = await axiosClient({
@@ -51,10 +52,16 @@ export function useAuth(): UseAuth {
     }
   }
 
-  async function login({ account, password }: IUserLogin): Promise<void> {
-    authServerCall('/api/login', { account, password });
+  async function login(user: IUserLogin): Promise<void> {
+    authServerCall('/api/login', user);
   };
-  async function signup(user: any): Promise<void> { };
+
+  async function signup(user: IUserSigup): Promise<void> { 
+    const check = validSignup(user);
+    if (check.errLength > 0) toast.error(check.errMsg[0]);
+    else authServerCall('/api/register', user);
+  };
+
   async function logout(): Promise<void> {
     // clear user from stored user data
     clearUser();
