@@ -7,11 +7,6 @@ import DesktopMenu from '../DesktopMenu';
 import MobileMenu from '../MobileMenu';
 import SearchHeader from '../SearchHeader';
 
-const bfLoginLinks = [
-  { label: 'Login', path: '/login' },
-  { label: 'Register', path: '/register' },
-];
-
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);

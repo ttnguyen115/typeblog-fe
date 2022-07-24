@@ -1,4 +1,4 @@
 import { queryKeys } from "./queryKeys";
-import { bfLoginLinks, settings } from "./routes";
+import { bfLoginLinks, settings, afLoginLinks } from "./routes";
 
-export { settings, bfLoginLinks, queryKeys };
+export { settings, bfLoginLinks, queryKeys, afLoginLinks };

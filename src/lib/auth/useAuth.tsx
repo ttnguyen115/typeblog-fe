@@ -9,6 +9,7 @@ interface UseAuth {
   login: (user: IUserLogin) => Promise<void>,
   signup: (user: any) => Promise<void>,
   logout: () => Promise<void>,
+  refresh: () => Promise<void>,
 }
 
 type UserResponse = { user: IUser };
@@ -21,14 +22,17 @@ export function useAuth(): UseAuth {
 
   async function authServerCall(
     urlEndpoint: string,
-    user: IUserSigup | IUserLogin,
+    user: IUserSigup | IUserLogin | null,
   ): Promise<void> {
     try {
       const { data, status }: AxiosResponse<AuthResponseType> = await axiosClient({
         url: urlEndpoint,
-        method: 'POST',
+        method: user ? 'POST' : 'GET',
+        withCredentials: true,
         data: user,
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
 
       if (status === 400) {
@@ -50,13 +54,13 @@ export function useAuth(): UseAuth {
       const title = axios.isAxiosError(errorResponse) && errorMessage ? errorMessage : SERVER_ERROR;
       toast.error(title);
     }
-  }
+  };
 
   async function login(user: IUserLogin): Promise<void> {
     authServerCall('/api/login', user);
   };
 
-  async function signup(user: IUserSigup): Promise<void> { 
+  async function signup(user: IUserSigup): Promise<void> {
     const check = validSignup(user);
     if (check.errLength > 0) toast.error(check.errMsg[0]);
     else authServerCall('/api/register', user);
@@ -68,9 +72,14 @@ export function useAuth(): UseAuth {
     toast.info('Logged out!');
   };
 
+  async function refresh(): Promise<void> {
+    authServerCall('/api/refresh_token', null);
+  }
+
   return {
     login,
     signup,
     logout,
+    refresh,
   };
 }

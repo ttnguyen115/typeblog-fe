@@ -1,11 +1,18 @@
 import LoginPass from "components/auth/Login/LoginPass";
 import LoginSMS from "components/auth/Login/LoginSMS";
 import React from "react";
-import { Link } from 'react-router-dom';
+import { useQuery } from "react-query";
+import { Link, useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 
 function Login() {
+  const navigate = useNavigate();
   const [sms, setSms] = React.useState(false);
+  const { data: user } = useQuery('user');
+
+  React.useEffect(() => {
+    if (user) navigate("/");
+  }, [user, navigate]);
 
   return (
     <LoginWrapper className="container">

@@ -8,4 +8,9 @@ const bfLoginLinks = [
   { label: "Signup", path: "/signup" },
 ];
 
-export { settings, bfLoginLinks };
+const afLoginLinks = [
+  { label: "Home", path: "/" },
+  { label: "Create blog", path: "/create_blog" },
+];
+
+export { settings, afLoginLinks, bfLoginLinks };

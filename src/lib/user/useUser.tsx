@@ -2,12 +2,13 @@ import { IUser } from "@types";
 import axiosClient from "api";
 import { AxiosResponse } from "axios";
 import { queryKeys } from "constants/index";
+import { resolve } from "dns";
 import { useQuery, useQueryClient } from "react-query";
 import { clearStoredUser, getStoredUser, setStoredUser } from "utils/common/userStorage";
 
 async function getUser(
   user: IUser | null,
-  signal: AbortSignal | undefined,
+  signal: AbortSignal | undefined | any,
 ): Promise<IUser | null> {
   if (!user) return null;
   const { data }: AxiosResponse<{ user: IUser }> = await axiosClient.get(
