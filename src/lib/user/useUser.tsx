@@ -1,8 +1,7 @@
 import { IUser } from "@types";
 import axiosClient from "api";
 import { AxiosResponse } from "axios";
-import { queryKeys } from "constants/index";
-import { resolve } from "dns";
+import { queryKeys } from "constants/queryKeys";
 import { useQuery, useQueryClient } from "react-query";
 import { clearStoredUser, getStoredUser, setStoredUser } from "utils/common/userStorage";
 

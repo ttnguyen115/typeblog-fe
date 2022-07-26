@@ -1,13 +1,15 @@
-import AppBar from '@mui/material/AppBar';
-import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
+import { AppBar, Container, Toolbar, Typography } from '@mui/material';
+import DesktopMenu from 'components/global/DesktopMenu';
+import MobileMenu from 'components/global/MobileMenu';
+import SearchHeader from 'components/global/SearchHeader';
+import { afLoginLinks, bfLoginLinks, IRoutes } from 'constants/routes';
+import { useUser } from 'lib/user/useUser';
 import React from 'react';
-import DesktopMenu from '../DesktopMenu';
-import MobileMenu from '../MobileMenu';
-import SearchHeader from '../SearchHeader';
 
-function Header() {
+function Header(): JSX.Element {
+  const { user } = useUser();
+  const navLinks: Array<IRoutes> = user ? afLoginLinks : bfLoginLinks;
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -40,6 +42,7 @@ function Header() {
               TypeBlog
             </Typography>
             <MobileMenu
+              navLinks={navLinks}
               handleCloseNavMenu={handleCloseNavMenu}
               anchorElNav={anchorElNav}
               handleOpenNavMenu={handleOpenNavMenu}
@@ -66,6 +69,7 @@ function Header() {
             {/* Desktop searchbox */}
             <SearchHeader />
             <DesktopMenu
+              navLinks={navLinks}
               handleCloseNavMenu={handleCloseNavMenu}
               handleCloseUserMenu={handleCloseUserMenu}
               handleOpenUserMenu={handleOpenUserMenu}

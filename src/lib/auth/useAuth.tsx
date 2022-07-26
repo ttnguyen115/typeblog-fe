@@ -1,6 +1,6 @@
 import { IUser, IUserLogin, IUserSigup } from "@types";
 import axiosClient from "api";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { useUser } from "lib/user/useUser";
 import { toast } from "react-toastify";
 import { validSignup } from "utils/common/valid";
@@ -50,9 +50,10 @@ export function useAuth(): UseAuth {
         updateUser(user);
       }
     } catch (errorResponse: any) {
-      const errorMessage = errorResponse?.response?.data?.message;
-      const title = axios.isAxiosError(errorResponse) && errorMessage ? errorMessage : SERVER_ERROR;
-      toast.error(title);
+      const errorMessage = errorResponse?.data?.message;
+      const title = errorMessage || SERVER_ERROR;
+      if (title === "Please login now!") return;
+      else toast.error(title);
     }
   };
 
@@ -69,6 +70,8 @@ export function useAuth(): UseAuth {
   async function logout(): Promise<void> {
     // clear user from stored user data
     clearUser();
+    authServerCall('/api/logout', null);
+    window.location.href = "/";
     toast.info('Logged out!');
   };
 

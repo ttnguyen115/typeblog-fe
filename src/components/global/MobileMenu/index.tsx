@@ -1,22 +1,24 @@
 import { Menu as MenuButton } from '@mui/icons-material';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
-import { bfLoginLinks } from 'constants/routes';
+import { Box, IconButton, Menu, MenuItem, Typography } from '@mui/material';
+import { queryKeys } from 'constants/queryKeys';
+import { IRoutes } from 'constants/routes';
 import React from 'react';
+import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
 interface MenuHeaderProps {
-  handleOpenNavMenu: any;
-  anchorElNav: any;
-  handleCloseNavMenu: any;
+  handleOpenNavMenu: (event: React.MouseEvent<HTMLElement>) => void;
+  anchorElNav: HTMLElement | null;
+  handleCloseNavMenu: (event: React.MouseEvent<HTMLElement>) => void;
+  navLinks: Array<IRoutes>;
 }
 
-function MobileMenu({ handleOpenNavMenu, anchorElNav, handleCloseNavMenu }: MenuHeaderProps) {
+function MobileMenu({ handleOpenNavMenu, anchorElNav, handleCloseNavMenu, navLinks }: MenuHeaderProps) {
+  const { data: user } = useQuery(queryKeys.user);
+
   return (
-    <React.Fragment>{/* Mobile responsive menu */}
+    <React.Fragment>
+      {/* Mobile responsive menu */}
       <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
         <IconButton
           size="large"
@@ -46,7 +48,7 @@ function MobileMenu({ handleOpenNavMenu, anchorElNav, handleCloseNavMenu }: Menu
             display: { xs: 'block', md: 'none' },
           }}
         >
-          {bfLoginLinks.map((page) => (
+          {navLinks.map((page: IRoutes) => (
             <Link to={page.path} key={page.label} style={{ textDecoration: 'none' }}>
               <MenuItem onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">{page.label}</Typography>
