@@ -12,14 +12,14 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <React.Fragment>
       <Header />
       <Routes>
         <Route path='/' element={<PageRender />} />
         <Route path='/:page' element={<PageRender />} />
         <Route path='/:page/:slug' element={<PageRender />} />
       </Routes>
-    </div>
+    </React.Fragment>
   );
 }
 

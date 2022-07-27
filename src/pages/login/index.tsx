@@ -1,5 +1,6 @@
 import LoginPass from "components/auth/Login/LoginPass";
 import LoginSMS from "components/auth/Login/LoginSMS";
+import SocialLogin from "components/auth/Login/SocialLogin";
 import React from "react";
 import { useQuery } from "react-query";
 import { Link, useNavigate } from 'react-router-dom';
@@ -18,16 +19,14 @@ function Login() {
     <LoginWrapper className="container">
       <LoginContainer>
         <h3 className="text-uppercase text-center mb-4">Login</h3>
-
+        <SocialLogin/>
         {sms ? <LoginSMS /> : <LoginPass />}
-
         <small className="row my-2 text-primary" style={{ cursor: 'pointer' }}>
           <span className="col-6">
             <Link to='/forgot_password' className="col-6">
               Forgot password?
             </Link>
           </span>
-
           <span className="col-6 text-end" onClick={() => setSms(!sms)}>
             {sms ? "Sign in with password" : "Sign in with SMS"}
           </span>

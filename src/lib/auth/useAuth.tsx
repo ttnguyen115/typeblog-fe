@@ -7,9 +7,10 @@ import { validSignup } from "utils/common/valid";
 
 interface UseAuth {
   login: (user: IUserLogin) => Promise<void>,
-  signup: (user: any) => Promise<void>,
+  signup: (user: IUserSigup) => Promise<void>,
   logout: () => Promise<void>,
   refresh: () => Promise<void>,
+  googleLogin: (token: string) => Promise<void>,
 }
 
 type UserResponse = { user: IUser };
@@ -22,14 +23,14 @@ export function useAuth(): UseAuth {
 
   async function authServerCall(
     urlEndpoint: string,
-    user: IUserSigup | IUserLogin | null,
+    user: IUserSigup | IUserLogin | string | null,
   ): Promise<void> {
     try {
       const { data, status }: AxiosResponse<AuthResponseType> = await axiosClient({
         url: urlEndpoint,
         method: user ? 'POST' : 'GET',
         withCredentials: true,
-        data: user,
+        data: typeof user === 'string' ? { id_token: user } : user,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -61,6 +62,10 @@ export function useAuth(): UseAuth {
     authServerCall('/api/login', user);
   };
 
+  async function googleLogin(id_token: string): Promise<void> {
+    authServerCall('/api/google_login', id_token);
+  };
+
   async function signup(user: IUserSigup): Promise<void> {
     const check = validSignup(user);
     if (check.errLength > 0) toast.error(check.errMsg[0]);
@@ -84,5 +89,6 @@ export function useAuth(): UseAuth {
     signup,
     logout,
     refresh,
+    googleLogin
   };
 }
