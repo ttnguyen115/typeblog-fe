@@ -11,6 +11,12 @@ interface UseAuth {
   logout: () => Promise<void>,
   refresh: () => Promise<void>,
   googleLogin: (token: string) => Promise<void>,
+  facebookLogin: (accessToken: string, userID: string) => Promise<void>,
+}
+
+interface IFacebookLogin {
+  accessToken: string;
+  userID: string;
 }
 
 type UserResponse = { user: IUser };
@@ -23,7 +29,7 @@ export function useAuth(): UseAuth {
 
   async function authServerCall(
     urlEndpoint: string,
-    user: IUserSigup | IUserLogin | string | null,
+    user: IUserSigup | IUserLogin | string | IFacebookLogin | null,
   ): Promise<void> {
     try {
       const { data, status }: AxiosResponse<AuthResponseType> = await axiosClient({
@@ -65,6 +71,10 @@ export function useAuth(): UseAuth {
   async function googleLogin(id_token: string): Promise<void> {
     authServerCall('/api/google_login', id_token);
   };
+  
+  async function facebookLogin(accessToken: string, userID: string): Promise<void> {
+    authServerCall("/api/facebook_login", { accessToken, userID });
+  };
 
   async function signup(user: IUserSigup): Promise<void> {
     const check = validSignup(user);
@@ -89,6 +99,7 @@ export function useAuth(): UseAuth {
     signup,
     logout,
     refresh,
-    googleLogin
+    googleLogin,
+    facebookLogin,
   };
 }
